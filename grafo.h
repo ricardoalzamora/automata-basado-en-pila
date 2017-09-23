@@ -1,25 +1,33 @@
 #include "pila.h"
+#include "lista.h"
 
 class Relacion{
 
 	private:		
 	string estadoRelacionado;
+	Lista *listaReglas;
 	Relacion *sig;
 
 	public:	
 	
 	Relacion(){
+		listaReglas = NULL;
 		sig = NULL;
     }
     
     Relacion(string estadoRelacionado){
-        this->estadoRelacionado =  estadoRelacionado;
+		this->estadoRelacionado =  estadoRelacionado;
+		listaReglas = NULL;
 		sig = NULL;
 	}    
 
 	string getEstadoRelacionado(){
 		return estadoRelacionado;
-    }
+	}
+	
+	Lista *getListaReglas(){
+		return listaReglas;
+	}
     
 	Relacion *getSiguiente(){
 		return sig;
@@ -27,6 +35,15 @@ class Relacion{
 
 	void setSiguiente(Relacion *sig){
 		this->sig = sig;
+	}
+
+	void agregarRegla(Lista *regla){
+		if(listaReglas != NULL){
+			regla->setSiguienteRegla(listaReglas);
+			listaReglas = regla;
+		}else{
+			listaReglas = regla;
+		}
 	}
 
 };
@@ -68,15 +85,15 @@ class Vertice{
 			this->sig = sig;
 		}
 
-		bool estaRelacionado(string estado){
+		Relacion *estaRelacionado(string estado){
         	Relacion *listaRelacionesAuxiliar = listaRelaciones;
         	while(listaRelacionesAuxiliar != NULL){
             	if(listaRelacionesAuxiliar->getEstadoRelacionado() == estado){
-            	    return true;
+            	    return listaRelacionesAuxiliar;
             	}
             	listaRelacionesAuxiliar = listaRelacionesAuxiliar->getSiguiente();
         	}
-        	return false;
+        	return NULL;
     	}
 
 		Relacion *getRelacion(string estado){
@@ -92,19 +109,22 @@ class Vertice{
 	
 	void agregarRelacion(Relacion *relacion){
         if(listaRelaciones != NULL){
-            if(!estaRelacionado(relacion->getEstadoRelacionado())){
-                Relacion *listaRelacionesAuxiliar = listaRelaciones;
-                while(listaRelaciones->getSiguiente() != NULL){
-                    listaRelaciones = listaRelaciones->getSiguiente();
-				}
-				listaRelaciones->setSiguiente(relacion);
-                listaRelaciones = listaRelacionesAuxiliar;
+            if(estaRelacionado(relacion->getEstadoRelacionado()) == NULL){
+				relacion->setSiguiente(listaRelaciones);
+				listaRelaciones = relacion;
 
             }
         }else{
             listaRelaciones = relacion;
         }
-    }
+	}
+	
+	void agregarRegla(string estadoLlegada, char caracterLectura, char caracterExtraerPila, string ingresarPila){
+		Relacion *relacionAuxiliar = estaRelacionado(estadoLlegada);
+		if(relacionAuxiliar != NULL){
+			relacionAuxiliar->agregarRegla(new Lista(caracterLectura, caracterExtraerPila, ingresarPila));
+		}
+	}
 
 	void imprimirRelacion(){
         Relacion *listaRelacionesAuxiliar = listaRelaciones;
@@ -169,14 +189,22 @@ class Grafo{
 
         if(verticeAuxiliar != NULL && esta(estadoLlegada) != NULL){
 
-            if(!verticeAuxiliar->estaRelacionado(estadoLlegada)){
+            if(verticeAuxiliar->estaRelacionado(estadoLlegada) == NULL){
 				verticeAuxiliar->agregarRelacion(new Relacion(estadoLlegada));
 				return true;
 			}
 			return false;
 		}
 		return false;
-    }
+	}
+	
+	bool agregarReglas(string estadoPartida, string estadoLlegada, char caracterLectura, char caracterExtraerPila, string ingresarPila){
+		Vertice *verticeAuxiliar = esta(estadoPartida);
+
+		if(verticeAuxiliar != NULL && esta(estadoLlegada) != NULL){
+			verticeAuxiliar->agregarRegla(estadoLlegada, caracterLectura, caracterExtraerPila, ingresarPila);
+		}
+	}
 
         void imprimirVerticesWAdy(){
         	Vertice *verticeAuxiliar = vertices;

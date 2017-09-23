@@ -1,7 +1,7 @@
 using namespace std;
 
 typedef char TipoDato;
-const int TAMPILA = 10;
+const int TAMPILA = 30;
 
 class Pila{
 	private:
@@ -10,6 +10,20 @@ class Pila{
 	public:
 		Pila(){
 			cima = -1;
+		}
+
+		void insertar(TipoDato dato){
+			if(!pilaLlena()){
+				cima++;
+				v[cima]=dato;
+			}else{
+				cout<<"Overflow!";
+			}
+		}
+
+		Pila(char caracterInicial){
+			Pila();
+			insertar(caracterInicial);
 		}
 		bool pilaVacia(){
 			if(cima == -1){
@@ -21,14 +35,7 @@ class Pila{
 		bool pilaLlena(){
 			return cima == TAMPILA-1;
 		}
-		void insertar(TipoDato dato){
-			if(!pilaLlena()){
-				cima++;
-				v[cima]=dato;
-			}else{
-				cout<<"Overflow!";
-			}
-		}
+		
 		TipoDato quitar(){
 			TipoDato aux;
 			if(!pilaVacia()){
