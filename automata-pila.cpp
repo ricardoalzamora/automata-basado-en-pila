@@ -1,6 +1,10 @@
+/*
+    Author: Ricardo Rafael Alzamora Valle
+*/
 #include <iostream>
 #include <stdlib.h>
 #include "grafo.h"
+
 
 
 //Código ASCII 157 = "Ø", reemplaza a "λ", para no extraer nada de la pila 
@@ -96,8 +100,11 @@ bool agregarRegla(){
                 }
             }
         }while(decision == 3);
-        
+        if(!g.agregarReglas(estadoPartida, estadoLlegada, caracterLectura, caracterExtraerPila, ingresarPila)){
+            return false;
+        }        
     }
+    return true;
 }
 
 main(){
@@ -105,9 +112,10 @@ main(){
     int opcion;
     do{
         system("clear");
-        cout<<(char)157;
-        cout<<"\t\tMenu."<<endl<<"1.Agregar Nodo."<<endl<<"2.Relacionar."<<endl<<"3.Mostrar Nodos."<<endl<<"4.Mostrar Relaciones."
-        <<endl<<"5.Salir."<<endl<<"Opcion: ";
+        cout<<"\t\tMenu."<<endl<<"1.Agregar Nodo."<<endl<<"2.Relacionar."<<endl
+        <<"3.Agregar Reglas."<<endl<<"4.Mostrar reglas de un estado a otro."
+        <<endl<<"5.Mostrar Nodos."<<endl<<"6.Mostrar Relaciones."
+        <<endl<<"7.Salir."<<endl<<"Opcion: ";
         cin>>opcion;
 
         switch(opcion){
@@ -129,14 +137,38 @@ main(){
                 }                
                 break;
             }
+
             case 3:{
+                system("clear");
+                if(!agregarRegla()){
+                    cout<<"No se puede agregar las reglas, verifica tus datos!";
+                    cin.get();
+                    cin.get();
+                }
+                break;
+            }
+            case 4:{
+                system("clear");
+                string estadoPartida, estadoLlegada;
+                cout<<"Ingresa el estado de partida: ";
+                cin>>estadoPartida;
+                cout<<"Ingresa el estado de llegada: ";
+                cin>>estadoLlegada;
+                while(!g.imprimirReglaNodoEspecifico(estadoPartida, estadoLlegada)){
+                    cout<<"Verifica los datos ingresados!";                    
+                }
+                cin.get();
+                cin.get();
+                break;
+            }
+            case 5:{
                 system("clear");
                 g.imprimirVertices();
                 cin.get();
                 cin.get();
                 break;
             }
-            case 4:{
+            case 6:{
                 system("clear");
                 g.imprimirVerticesWAdy();
                 cin.get();
@@ -144,5 +176,5 @@ main(){
                 break;
             }
         }
-    }while(opcion != 5);
+    }while(opcion != 7);
 }

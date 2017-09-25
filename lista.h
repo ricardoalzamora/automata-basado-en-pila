@@ -27,6 +27,10 @@ public:
         return extraePila;
     }
 
+    string getIngresaPila(){
+        return ingresaPila;
+    }
+
     Lista *getSiguienteRegla(){
         return siguienteRegla;
     }

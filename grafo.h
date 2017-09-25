@@ -119,10 +119,13 @@ class Vertice{
         }
 	}
 	
-	void agregarRegla(string estadoLlegada, char caracterLectura, char caracterExtraerPila, string ingresarPila){
+	bool agregarRegla(string estadoLlegada, char caracterLectura, char caracterExtraerPila, string ingresarPila){
 		Relacion *relacionAuxiliar = estaRelacionado(estadoLlegada);
 		if(relacionAuxiliar != NULL){
 			relacionAuxiliar->agregarRegla(new Lista(caracterLectura, caracterExtraerPila, ingresarPila));
+			return true;
+		}else{
+			false;
 		}
 	}
 
@@ -132,7 +135,20 @@ class Vertice{
             cout<<"["<<listaRelacionesAuxiliar->getEstadoRelacionado()<<"]"<<endl;
             listaRelacionesAuxiliar = listaRelacionesAuxiliar->getSiguiente();
         }
-    }
+	}
+	
+	void imprimirReglas(string estadoPartida, string estadoLlegada){
+		Relacion *relacionAuxiliar = estaRelacionado(estadoLlegada);
+		if(relacionAuxiliar != NULL){
+			Lista *listaReglasAuxiliar = relacionAuxiliar->getListaReglas();
+			while(listaReglasAuxiliar != NULL){
+				cout<<listaReglasAuxiliar->getLeeCaracter()<<"/"<<listaReglasAuxiliar->getExtraePila()<<"/"
+				<<listaReglasAuxiliar->getIngresaPila()<<endl;
+				listaReglasAuxiliar = listaReglasAuxiliar->getSiguienteRegla();
+			}
+			
+		}
+	}
 
 };
 
@@ -202,8 +218,18 @@ class Grafo{
 		Vertice *verticeAuxiliar = esta(estadoPartida);
 
 		if(verticeAuxiliar != NULL && esta(estadoLlegada) != NULL){
-			verticeAuxiliar->agregarRegla(estadoLlegada, caracterLectura, caracterExtraerPila, ingresarPila);
+			return verticeAuxiliar->agregarRegla(estadoLlegada, caracterLectura, caracterExtraerPila, ingresarPila);
 		}
+		return false;
+	}
+
+	bool imprimirReglaNodoEspecifico(string estadoPartida, string estadoLlegada){
+		Vertice *verticeAuxiliar = esta(estadoPartida);
+		if(verticeAuxiliar != NULL && esta(estadoLlegada)){
+			verticeAuxiliar->imprimirReglas(estadoPartida, estadoLlegada);
+			return true;
+		}
+		return false;
 	}
 
         void imprimirVerticesWAdy(){
