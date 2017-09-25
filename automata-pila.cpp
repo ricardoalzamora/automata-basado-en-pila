@@ -112,10 +112,10 @@ main(){
     int opcion;
     do{
         system("clear");
-        cout<<"\t\tMenu."<<endl<<"1.Agregar Nodo."<<endl<<"2.Relacionar."<<endl
-        <<"3.Agregar Reglas."<<endl<<"4.Mostrar reglas de un estado a otro."
-        <<endl<<"5.Mostrar Nodos."<<endl<<"6.Mostrar Relaciones."
-        <<endl<<"7.Salir."<<endl<<"Opcion: ";
+        cout<<"\t\tMenu."<<endl<<"1.Agregar Nodo."<<endl<<"2.Marcar Nodo de inicio"<<endl
+        <<"3.Relacionar."<<endl<<"4.Agregar Reglas."<<endl<<"5.Mostrar reglas de un estado a otro."
+        <<endl<<"6.Mostrar Nodos."<<endl<<"7.Mostrar Relaciones."
+        <<endl<<"8.Salir."<<endl<<"Opcion: ";
         cin>>opcion;
 
         switch(opcion){
@@ -128,7 +128,21 @@ main(){
                 }                             
                 break;
             }
+
             case 2:{
+                system("clear");
+                string nodoEntrada;
+                cout<<"Ingresa el nombre del nodo o estado: ";
+                cin>>nodoEntrada;
+                if(!g.marcarNodoEntrada(nodoEntrada)){
+                    cout<<"Ya hay un nodo de entrada o no existe el nodo indicado!";
+                    cin.get();
+                    cin.get();
+                }
+                break;
+            }
+
+            case 3:{
                 system("clear");
                 if(!agregarRelacion()){
                     cout<<"No se puede realizar la operacion, intentalo de nuevo!";
@@ -138,7 +152,7 @@ main(){
                 break;
             }
 
-            case 3:{
+            case 4:{
                 system("clear");
                 if(!agregarRegla()){
                     cout<<"No se puede agregar las reglas, verifica tus datos!";
@@ -147,7 +161,7 @@ main(){
                 }
                 break;
             }
-            case 4:{
+            case 5:{
                 system("clear");
                 string estadoPartida, estadoLlegada;
                 cout<<"Ingresa el estado de partida: ";
@@ -161,14 +175,14 @@ main(){
                 cin.get();
                 break;
             }
-            case 5:{
+            case 6:{
                 system("clear");
                 g.imprimirVertices();
                 cin.get();
                 cin.get();
                 break;
             }
-            case 6:{
+            case 7:{
                 system("clear");
                 g.imprimirVerticesWAdy();
                 cin.get();
@@ -176,5 +190,5 @@ main(){
                 break;
             }
         }
-    }while(opcion != 7);
+    }while(opcion != 8);
 }

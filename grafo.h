@@ -155,10 +155,12 @@ class Vertice{
 class Grafo{
 	private:
 		Vertice *vertices;
+		string nodoEntrada;
 
 	public:
 		Grafo(){
 			vertices = NULL;
+			nodoEntrada = "";
 		}
 
 		Vertice *esta(string estado){
@@ -190,7 +192,19 @@ class Grafo{
             vertices = vertice;
 		}
 		return true;
-    }
+	}
+
+	bool hayNodoEntrada(){
+		return !(nodoEntrada == "");
+	}
+	
+	bool marcarNodoEntrada(string nodoEntrada){
+		if(this->nodoEntrada == "" && esta(nodoEntrada) != NULL){
+			this->nodoEntrada = nodoEntrada;
+			return true;
+		}
+		return false;
+	}
 
 	void imprimirVertices(){
         Vertice *verticeAuxiliar = vertices;
