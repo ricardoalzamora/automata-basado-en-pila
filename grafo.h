@@ -45,7 +45,6 @@ class Relacion{
 			listaReglas = regla;
 		}
 	}
-
 };
 
 class Vertice{
@@ -197,6 +196,10 @@ class Grafo{
 	bool hayNodoEntrada(){
 		return !(nodoEntrada == "");
 	}
+
+	string getNodoEntrada(){
+		return nodoEntrada;
+	}
 	
 	bool marcarNodoEntrada(string nodoEntrada){
 		if(this->nodoEntrada == "" && esta(nodoEntrada) != NULL){
@@ -235,6 +238,58 @@ class Grafo{
 			return verticeAuxiliar->agregarRegla(estadoLlegada, caracterLectura, caracterExtraerPila, ingresarPila);
 		}
 		return false;
+	}
+
+	bool verificarAceptaciona(string estadoActual, string lectura, Pila pila, bool esEntrada = true){
+		Vertice *verticeActual = esta(estadoActual);
+		Relacion *relacionesActuales = verticeActual->getListaRelaciones();
+
+		while(relacionesActuales != NULL){
+			Lista *listaReglas = relacionesActuales->getListaReglas();
+			while(listaReglas != NULL){
+
+				if(esEntrada){
+					if(listaReglas->getLeeCaracter() == lectura[0]){
+						for(int i = 0; i < listaReglas->getIngresaPila().length(); i++){
+							pila.insertar(listaReglas->getIngresaPila()[i]);
+						}
+						if(lectura.length() == 1 && esta(relacionesActuales->getEstadoRelacionado())->getAceptacion() == true){
+							return true;
+						}
+						bool aceptado = verificarAceptaciona(relacionesActuales->getEstadoRelacionado(), 
+						lectura.substr(1, lectura.length()), pila, false);
+						if(aceptado){
+							return true;
+						}
+
+					}
+				}else{
+					if(!pila.pilaVacia()){
+						char caracter = pila.quitar();						
+						if(listaReglas->getLeeCaracter() == lectura[0] && listaReglas->getExtraePila() == caracter){
+							for(int i = 0; i < listaReglas->getIngresaPila().length(); i++){
+								pila.insertar(listaReglas->getIngresaPila()[i]);
+							}
+							if(lectura.length() == 1 && esta(relacionesActuales->getEstadoRelacionado())->getAceptacion() == true){
+								return true;
+							}
+							bool aceptado = verificarAceptaciona(relacionesActuales->getEstadoRelacionado(), 
+							lectura.substr(1, lectura.length()), pila, false);
+							if(aceptado){
+								return true;
+							}
+						}else{
+							pila.insertar(caracter);
+						}
+					}			
+				}
+
+				listaReglas = listaReglas->getSiguienteRegla();
+			}
+
+			relacionesActuales = relacionesActuales->getSiguiente();
+		}
+
 	}
 
 	bool imprimirReglaNodoEspecifico(string estadoPartida, string estadoLlegada){
