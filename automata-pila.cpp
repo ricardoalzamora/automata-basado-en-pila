@@ -14,6 +14,7 @@ Grafo g = Grafo();
 
 bool agregarVertice(){
     int esAceptado;
+    bool esAceptadoAuxiliar;
     string nombreEstado;
     do{
         cout<<"Ingrese el nombre del nodo: ";
@@ -24,7 +25,12 @@ bool agregarVertice(){
             system("clear");
             cout<<"Intente de nuevo."<<endl;
         }else{
-            return g.agregarVertice(new Vertice(nombreEstado, esAceptado));
+            if(esAceptado == 1){
+                esAceptadoAuxiliar = true;
+            }else{
+                esAceptadoAuxiliar = false;
+            }
+            return g.agregarVertice(new Vertice(nombreEstado, esAceptadoAuxiliar));
         }
     }while(esAceptado != 0 && esAceptado != 1);
 }
