@@ -15,6 +15,13 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void on_btnAddVertex_clicked();
+
+    void on_buttonAddRules_clicked();
+
+    void on_buttonValidate_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
