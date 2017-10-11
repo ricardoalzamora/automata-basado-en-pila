@@ -90,55 +90,62 @@ class Grafo{
 		return false;
 	}
 
-	bool verificarAceptaciona(string estadoActual, string lectura, Pila pila, bool esEntrada = true){
+	bool verificarAceptacion(string estadoActual, string lectura, Pila pila, bool esEntrada = true){
 		Vertice *verticeActual = esta(estadoActual);
 		Relacion *relacionesActuales = verticeActual->getListaRelaciones();
 
 		while(relacionesActuales != NULL){
 			Lista *listaReglas = relacionesActuales->getListaReglas();
+
 			while(listaReglas != NULL){
 
-				if(esEntrada){
-					if(listaReglas->getLeeCaracter() == lectura[0]){
-						for(int i = 0; i < listaReglas->getIngresaPila().length(); i++){
-							pila.insertar(listaReglas->getIngresaPila()[i]);
-						}
-						if(lectura.length() == 1 && esta(relacionesActuales->getEstadoRelacionado())->getAceptacion() == true){
-							return true;
-						}
-						bool aceptado = verificarAceptaciona(relacionesActuales->getEstadoRelacionado(), 
-						lectura.substr(1, lectura.length()), pila, false);
-						if(aceptado){
-							return true;
-						}						
+				Pila pilaAuxiliar = pila;
+				char caracter, primerCaracter;
+				string lecturaAuxiliar;
 
-					}
+				if(esEntrada && listaReglas->getExtraePila() != 157){
+					pilaAuxiliar.insertar(listaReglas->getExtraePila());
+				}
+				if(listaReglas->getExtraePila() != 157 && pilaAuxiliar.tamPila() == 0){
+					continue;
+				}
+				if(listaReglas->getExtraePila() != 157){
+					caracter = pilaAuxiliar.quitar();
 				}else{
-					if(!pila.pilaVacia()){
-						Pila pilaAuxiliar = pila;
-						char caracter = pila.quitar();						
-						if(listaReglas->getLeeCaracter() == lectura[0] && listaReglas->getExtraePila() == caracter){
-							for(int i = 0; i < listaReglas->getIngresaPila().length(); i++){
-								pilaAuxiliar.insertar(listaReglas->getIngresaPila()[i]);
-							}
+					caracter = 157;
+				}
 
-							if(lectura.length() == 1 && esta(relacionesActuales->getEstadoRelacionado())->getAceptacion()){
-								return true; 
-							}
-							bool aceptado = verificarAceptaciona(relacionesActuales->getEstadoRelacionado(), 
-							lectura.substr(1, lectura.length()), pilaAuxiliar, false);
-							if(aceptado){
-								return true;
-							}
+				if(lectura.length() == 1 && esta(relacionesActuales->getEstadoRelacionado())->getAceptacion()){
+					return true;
+				}
+				if(listaReglas->getExtraePila() == caracter && (lectura[0] == listaReglas->getLeeCaracter() || listaReglas->getLeeCaracter() == 156)){
+				
+					if(listaReglas->getIngresaPila() != "λ"){
+						for(int i = 0; i < listaReglas->getIngresaPila().length(); i++){
+							pilaAuxiliar.insertar(listaReglas->getIngresaPila()[i]);
 						}
-						pila.insertar(caracter);
-					}			
+					}					
+					if(lectura.length() == 1 && esta(relacionesActuales->getEstadoRelacionado())->getAceptacion()){
+						return true;
+					}
+					if(listaReglas->getLeeCaracter() == 156){
+						lecturaAuxiliar = lectura;
+					}else{
+						lecturaAuxiliar = lectura.substr(1, lectura.length() - 1);
+					}					
+
+					bool aceptado = verificarAceptacion(relacionesActuales->getEstadoRelacionado(), 
+					lecturaAuxiliar, pilaAuxiliar, false);
+					if(aceptado){
+						return true;
+					}
+						
 				}
 
 				listaReglas = listaReglas->getSiguienteRegla();
 			}
-
 			relacionesActuales = relacionesActuales->getSiguiente();
+			
 		}
 
 	}
@@ -152,15 +159,15 @@ class Grafo{
 		return false;
 	}
 
-        void imprimirVerticesWAdy(){
-        	Vertice *verticeAuxiliar = vertices;
-        	while(verticeAuxiliar != NULL){
-            	cout<<"["<<verticeAuxiliar->getEstado()<<"] relacionado: "<<endl;
-            	verticeAuxiliar->imprimirRelacion();
-            	cout<<endl;
-            	cout<<"------"<<endl;
-            	verticeAuxiliar = verticeAuxiliar->getSiguiente();
-        	}
-    	}
+    void imprimirVerticesWAdy(){
+		Vertice *verticeAuxiliar = vertices;
+		while(verticeAuxiliar != NULL){
+			cout<<"["<<verticeAuxiliar->getEstado()<<"] relacionado: "<<endl;
+			verticeAuxiliar->imprimirRelacion();
+			cout<<endl;
+			cout<<"------"<<endl;
+			verticeAuxiliar = verticeAuxiliar->getSiguiente();
+		}
+	}    
 
 };

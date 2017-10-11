@@ -1,7 +1,7 @@
 using namespace std;
 
 typedef char TipoDato;
-const int TAMPILA = 30;
+const int TAMPILA = 100;
 
 class Pila{
 	private:
