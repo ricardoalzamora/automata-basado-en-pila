@@ -22,6 +22,8 @@ private slots:
 
     void on_buttonValidate_clicked();
 
+    void on_action_Acerca_de_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

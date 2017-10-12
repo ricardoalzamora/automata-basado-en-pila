@@ -93,16 +93,6 @@
       <string>Nombre del Estado</string>
      </property>
     </widget>
-    <widget class="QListView" name="listViewVertex">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>230</y>
-       <width>430</width>
-       <height>411</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="lineRead">
      <property name="geometry">
       <rect>
@@ -256,6 +246,16 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="QListWidget" name="listWidget">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>300</y>
+       <width>400</width>
+       <height>321</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="widget_2" native="true">
     <property name="geometry">
@@ -329,6 +329,13 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu_Soporte">
+    <property name="title">
+     <string>&amp;Soporte</string>
+    </property>
+    <addaction name="action_Acerca_de"/>
+   </widget>
+   <addaction name="menu_Soporte"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -337,8 +344,14 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="action_Acerca_de"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="action_Acerca_de">
+   <property name="text">
+    <string>&amp;Acerca de</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

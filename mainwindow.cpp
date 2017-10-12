@@ -40,6 +40,13 @@ void MainWindow::on_btnAddVertex_clicked()
     QPalette palette;
     if(!ui->lineVertex->text().isEmpty()){
         if(g.agregarVertice(new Vertice(ui->lineVertex->text().toStdString(), ui->checkIsAcceptation->isChecked()))){
+            QString esAceptado;
+            if(ui->checkIsAcceptation->isChecked()){
+                esAceptado = "Estado de aceptación";
+            }else{
+                esAceptado = "No es estado de aceptación";
+            }
+            ui->listWidget->addItem("Nodo  " + ui->lineVertex->text() + "\t " + esAceptado);
             if(ui->checkIsStart->isChecked()){
                 addStartPoint(ui, ui->lineVertex->text().toStdString());
             }
@@ -127,4 +134,10 @@ void MainWindow::on_buttonValidate_clicked()
         setLabelText(ui, 3);
     }
     ui->lineWords->clear();
+}
+
+void MainWindow::on_action_Acerca_de_triggered()
+{
+    QMessageBox::information(this, "Automata Basado en Pila",
+                             "Código basado en C++. \nEmpleando en G++ y Qt Creator. \nDiseñado y programado por Ricardo Alzamora Valle.");
 }
