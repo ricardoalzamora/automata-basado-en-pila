@@ -1,7 +1,7 @@
 using namespace std;
 
 typedef char TipoDato;
-const int TAMPILA = 100;
+const int TAMPILA = 100, VACIO = -1;
 
 class Pila{
 	private:
@@ -9,7 +9,7 @@ class Pila{
 		TipoDato v[TAMPILA];
 	public:
 		Pila(){
-			cima = -1;
+			cima = VACIO;
 		}
 
 		void insertar(TipoDato dato){
@@ -26,7 +26,7 @@ class Pila{
 			insertar(caracterInicial);
 		}
 		bool pilaVacia(){
-			if(cima == -1){
+			if(cima == VACIO){
 				return true;
 			}else{
 				return false;
@@ -59,7 +59,7 @@ class Pila{
 			if(pilaVacia()){
 				cout<<"La pila ya estaba vacia!";
 			}else{
-				cima = -1;
+				cima = VACIO;
 			}
 		}
 		TipoDato cimaPila(){
