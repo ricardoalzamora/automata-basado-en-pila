@@ -179,7 +179,7 @@ main(){
                 string palabra;
                 cout<<"Ingresa la palabra: ";
                 cin>>palabra;
-                if(g.verificarAceptaciona(g.getNodoEntrada(), palabra, pila)){
+                if(g.verificarAceptacion(g.getNodoEntrada(), palabra, pila)){
                     cout<<"Palabra aceptada!";
                 }else{
                     cout<<"No se puede aceptar!";

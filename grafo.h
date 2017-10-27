@@ -115,9 +115,7 @@ class Grafo{
 					caracter = 157;
 				}
 
-				if(lectura.length() == 1 && esta(relacionesActuales->getEstadoRelacionado())->getAceptacion()){
-					return true;
-				}
+				
 				if(listaReglas->getExtraePila() == caracter && (lectura[0] == listaReglas->getLeeCaracter() || listaReglas->getLeeCaracter() == 156)){
 				
 					if(listaReglas->getIngresaPila() != "λ"){
