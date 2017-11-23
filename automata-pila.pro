@@ -28,7 +28,12 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+        vertice.h \
+        relacion.h \
+        lista.h \
+        grafo.h \
+        pila.h
 
 FORMS += \
         mainwindow.ui

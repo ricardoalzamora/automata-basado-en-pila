@@ -1,3 +1,7 @@
+/*
+*   Author: Ricardo Rafael Alzamora Valle
+*/
+
 #include "mainwindow.h"
 #include <QApplication>
 
